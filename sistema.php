@@ -117,7 +117,7 @@
                 }
 
                 .box{
-                  padding: 5px;
+                  padding: 6px;
                 }
 
             </style>
