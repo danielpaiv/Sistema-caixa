@@ -1,0 +1,320 @@
+ <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Sistema de Caixa</title>
+  <style>
+    /* Estilos básicos */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header, footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    main {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+
+    section {
+      border: 1px solid #ccc;
+      padding: 20px;
+      width: 45%;
+    }
+
+    .produto, .item-carrinho, .total {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Sistema de Caixa</h1>
+  </header>
+
+    <main>
+      <section class="produtos">
+        <h2>Produtos</h2>
+        <!-- Lista de produtos -->
+        <div class="produto" data-name="Produto 1" data-price="10.00">
+          <span>Produto 1</span>
+          <span>R$ 12,00</span>
+          <input type="number" value="1" min="1">
+          <button class="adicionar-produto">Adicionar</button>
+        </div>
+        <div class="produto" data-name="Produto 2" data-price="15.00">
+          <span>Produto 2</span>
+          <span>R$ 17,00</span>
+          <input type="number" value="1" min="1">
+          <button class="adicionar-produto">Adicionar</button>
+        </div>
+        <div class="produto" data-name="Produto 3" data-price="15.00">
+          <span>Produto 3</span>
+          <span>R$ 10,00</span>
+          <input type="number" value="1" min="1">
+          <button class="adicionar-produto">Adicionar</button>
+        </div>
+        <div class="produto" data-name="Produto 4" data-price="15.00">
+          <span>Produto 4</span>
+          <span>R$ 20,00</span>
+          <input type="number" value="1" min="1">
+          <button class="adicionar-produto">Adicionar</button>
+        </div>
+        <!-- Adicione mais produtos conforme necessário -->
+      </section>
+
+      <section class="carrinho">
+        <h2>Carrinho</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Preço Unitário</th>
+              <th>Quantidade</th>
+              <th>Subtotal</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody class="itens-carrinho"></tbody>
+        </table>
+        <div class="total">
+          <span>Total:</span>
+          <span>R$ 0,00</span>
+        </div>
+        <div>
+          <label for="forma-pagamento">Forma de Pagamento:</label>
+          <select id="forma-pagamento">
+            <option value="cartao">Cartão</option>
+            <option value="dinheiro">Dinheiro</option>
+            <option value="pix">PIX</option>
+          </select>
+        </div>
+        <button class="finalizar-compra">Finalizar Compra</button>
+      </section>
+    </main>
+
+  <section class="pedidos-vendidos">
+    <h2>Pedidos Vendidos</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Data</th>
+          <th>Forma de Pagamento</th>
+          <th>Quantidade</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody class="lista-pedidos-vendidos"></tbody>
+    </table>
+    <button class="exportar-pedidos">Exportar</button>
+  </section>
+
+  <footer>
+    <p>&copy; 2023 Sistema de Caixa</p>
+  </footer>
+
+  <script>
+    document.addEventListener
+    ('DOMContentLoaded', function () 
+            {
+              const produtos = document.querySelectorAll('.produtos .produto');
+              const itensCarrinho = document.querySelector('.itens-carrinho');
+              const totalCarrinho = document.querySelector('.total span');
+              const botaoFinalizarCompra = document.querySelector('.finalizar-compra');
+              const listaPedidosVendidos = document.querySelector('.lista-pedidos-vendidos');
+              const botaoExportarPedidos = document.querySelector('.exportar-pedidos');
+              const selectFormaPagamento = document.getElementById('forma-pagamento');
+              let totalCompra = 0;
+
+              // Adiciona eventos de clique para adicionar produtos ao carrinho
+              produtos.forEach
+              (produto => 
+                {
+                  const adicionarProdutoBtn = produto.querySelector('.adicionar-produto');
+                  adicionarProdutoBtn.addEventListener
+                  ('click', () => 
+                    {
+                        const nomeProduto = produto.getAttribute('data-name');
+                        const precoProduto = parseFloat(produto.getAttribute('data-price'));
+                        const quantidade = parseInt(produto.querySelector('input[type="number"]').value);
+
+                        const itemExistente = Array.from(itensCarrinho.querySelectorAll('tr')).find
+                        (item => 
+                          {
+                            return item.dataset.name === nomeProduto;
+                          }
+                        );
+
+                        if (itemExistente) 
+                        {
+                          const quantidadeAtual = parseInt(itemExistente.querySelector('.quantidade').textContent);
+                          const novaQuantidade = quantidadeAtual + quantidade;
+                          itemExistente.querySelector('.quantidade').textContent = novaQuantidade;
+                          const subtotal = precoProduto * novaQuantidade;
+                          itemExistente.querySelector('.subtotal').textContent = `R$ ${subtotal.toFixed(2)}`;
+                        } 
+                      
+                      else 
+
+                        {
+                          const subtotal = precoProduto * quantidade;
+                          const newRow = document.createElement('tr');
+                          newRow.dataset.name = nomeProduto;
+                          newRow.innerHTML = `
+                            <td>${nomeProduto}</td>
+                            <td>R$ ${precoProduto.toFixed(2)}</td>
+                            <td class="quantidade">${quantidade}</td><td class="subtotal">R$ ${subtotal.toFixed(2)}</td>
+                          <td><button class="remover-item">Remover</button></td>
+                        `;
+                          itensCarrinho.appendChild(newRow);
+                        }
+
+                      totalCompra += precoProduto * quantidade;
+                      totalCarrinho.textContent = `R$ ${totalCompra.toFixed(2)}`;
+                    }
+                  );
+                }
+              );
+
+                  // Evento para remover item do carrinho
+                  itensCarrinho.addEventListener
+
+              ('click', event => 
+
+                  {
+                    if (event.target.classList.contains('remover-item')) 
+                    {
+                      const itemToRemove = event.target.closest('tr');
+                      const precoItem = parseFloat(itemToRemove.querySelector('td:nth-child(2)').textContent.replace('R$ ', ''));
+                      const quantidadeItem = parseInt(itemToRemove.querySelector('.quantidade').textContent);
+                      totalCompra -= precoItem * quantidadeItem;
+                      totalCarrinho.textContent =`R$ ${totalCompra.toFixed(2)}`;
+                      itemToRemove.remove();
+                    }
+                  }
+              );
+
+              // Evento para finalizar compra
+              botaoFinalizarCompra.addEventListener
+
+                  ('click', () => 
+
+                    {
+                      const formaPagamento = selectFormaPagamento.value;
+                      const data = new Date().toLocaleDateString();
+
+                      const itensCarrinhoRows = document.querySelectorAll('.itens-carrinho tr');
+                      itensCarrinhoRows.forEach
+
+                      (row => 
+
+                        {
+                          const nome = row.children[0].textContent;
+                          const quantidade = row.children[2].textContent;
+                          const valor = row.children[3].textContent.replace('R$ ', '');
+
+                          const newRow = document.createElement('tr');
+                          newRow.innerHTML = `
+                            <td>${nome}</td>
+                            <td>${data}</td>
+                            <td>${formaPagamento}</td>
+                            <td>${quantidade}</td>
+                            <td>${valor}</td>
+                            `;
+                          listaPedidosVendidos.appendChild(newRow);
+                        }
+                      );
+
+                      // Limpa o carrinho após finalizar a compra
+                      itensCarrinho.innerHTML = '';
+                      totalCarrinho.textContent = 'R$ 0,00';
+                      totalCompra = 0;
+                    }
+                  );
+
+              // Evento de clique para exportar pedidos
+              botaoExportarPedidos.addEventListener
+
+                    ('click', () => 
+
+                      {
+                        const linhasTabela = document.querySelectorAll('.pedidos-vendidos tbody tr');
+
+                        let textoExportado = 'Item,Data,Forma de Pagamento,Quantidade,Valor\n';
+
+                        linhasTabela.forEach
+
+                        (linha => 
+
+                          {
+                            const colunas = linha.querySelectorAll('td');
+                            colunas.forEach
+
+                            ((coluna, index) => 
+
+                              {
+                                textoExportado += coluna.textContent;
+                                if (index !== colunas.length - 1) 
+                                {
+                                  textoExportado += ',';
+                                } 
+                                else 
+                                {
+                                  textoExportado += '\n';
+                                }
+                              }
+                            );
+                          }
+                        );
+
+                          const a = document.createElement('a');
+                          const file = new Blob([textoExportado], { type: 'text/plain' });
+                          a.href = URL.createObjectURL(file);
+                          a.download = 'pedidos.txt';
+                            a.click();
+                      }
+                    );
+            }
+    
+    );
+  </script>
+</body>
+</html>
