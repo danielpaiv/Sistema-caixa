@@ -410,7 +410,7 @@
                           const novaQuantidade = quantidadeAtual + quantidade;
                           itemExistente.querySelector('.quantidade').textContent = novaQuantidade;
                           const subtotal = precoProduto * novaQuantidade;
-                          itemExistente.querySelector('.subtotal').textContent = `R$ ${subtotal.toFixed(2)}`;
+                          itemExistente.querySelector('.subtotal').textContent = `R$ ${subtotal.toFixed()}`;
                         } 
                       
                       else 
@@ -421,15 +421,15 @@
                           newRow.dataset.name = nomeProduto;
                           newRow.innerHTML = `
                             <td>${nomeProduto}</td>
-                            <td>R$ ${precoProduto.toFixed(2)}</td>
-                            <td class="quantidade">${quantidade}</td><td class="subtotal">R$ ${subtotal.toFixed(2)}</td>
+                            <td>R$ ${precoProduto.toFixed()}</td>
+                            <td class="quantidade">${quantidade}</td><td class="subtotal">R$ ${subtotal.toFixed()}</td>
                           <td><button class="remover-item">Remover</button></td>
                         `;
                           itensCarrinho.appendChild(newRow);
                         }
 
                       totalCompra += precoProduto * quantidade;
-                      totalCarrinho.textContent = `R$ ${totalCompra.toFixed(2)}`;
+                      totalCarrinho.textContent = `R$ ${totalCompra.toFixed()}`;
                     }
                   );
                 }
@@ -447,7 +447,7 @@
                       const precoItem = parseFloat(itemToRemove.querySelector('td:nth-child(2)').textContent.replace('R$ ', ''));
                       const quantidadeItem = parseInt(itemToRemove.querySelector('.quantidade').textContent);
                       totalCompra -= precoItem * quantidadeItem;
-                      totalCarrinho.textContent =`R$ ${totalCompra.toFixed(2)}`;
+                      totalCarrinho.textContent =`R$ ${totalCompra.toFixed()}`;
                       itemToRemove.remove();
                     }
                   }
