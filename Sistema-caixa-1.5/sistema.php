@@ -41,7 +41,7 @@
                 div{
                     background-color: blue;
                     font-size: 20px;
-                    padding: 10px;
+                    padding: 5px;
 
                 }
                 .navbar-toggler-icon{
@@ -65,7 +65,7 @@
                     background-color: #333;
                     color: #fff;
                     text-align: center;
-                    padding: 10px 0;
+                    padding: 5px;
                 }
 
                 main {
@@ -261,7 +261,7 @@
           <tbody class="itens-carrinho"></tbody>
         </table>
         <div class="total">
-          <span>Total:</span>
+          <span >Total:</span>
           <span></span>
         </div>
 
@@ -306,7 +306,9 @@
         </div><br>
 
         <div>
-          <p>Valor com desconto: <span id="Valor-final"></span></p>
+
+          <p>Valor com desconto: <span id="valor-final"></span></p>
+          
         </div><br>
 
         <button class="finalizar-compra">Finalizar Compra</button>
@@ -327,7 +329,8 @@
           <th>Cliente</th>
           <th>Categoria</th>
           <th>Observacao</th>
-          <th>Discount</th>
+          <th>Desconto</th>
+          <th>Valor final</th>
           <th>Quantidade</th>
           <th>Valor</th>
         </tr>
@@ -353,7 +356,8 @@
         const valorComDesconto = valorServico - desconto ;
 
         // Exiba o resultado
-        document.getElementById("Valor-final").textContent = valorComDesconto.toFixed(0);
+        document.getElementById("valor-final").value = valorComDesconto.toFixed(0);
+        document.getElementById("valor-final").textContent = valorComDesconto.toFixed(0);
         }
   // código filtrar itens...
 
@@ -417,6 +421,7 @@
               const selectCategoria = document.getElementById('categoria');
               const selectObservacao = document.getElementById('observacao');
               const selectDiscount = document.getElementById('discount');
+               const selectValorFinal = document.getElementById('valor-final');
               let totalCompra = 0;
 
               // Adiciona eventos de clique para adicionar produtos ao carrinho
@@ -498,6 +503,7 @@
                       const categoria = selectCategoria.value;
                       const observacao = selectObservacao.value;
                       const discount = selectDiscount.value;
+                      const valorFinal = selectValorFinal.value;
                       const data = new Date().toLocaleDateString();
 
                       const itensCarrinhoRows = document.querySelectorAll('.itens-carrinho tr');
@@ -519,6 +525,7 @@
                             <td>${categoria}</td>
                             <td>${observacao}</td>
                             <td>${discount}</td>
+                            <td>${valorFinal}</td>
                             <td>${quantidade}</td>
                             <td>${valor}</td>
                             `;
@@ -539,7 +546,7 @@
                 {
                   const linhasTabela = document.querySelectorAll('.pedidos-vendidos tbody tr');
 
-                  let textoExportado = 'Item,Data,Forma de Pagamento,Cliente,Categoria,Observacao,Desconto,Quantidade,Valor\n';
+                  let textoExportado = 'Item,Data,Forma de Pagamento,Cliente,Categoria,Observacao,Desconto,Valor Final,Quantidade,Valor\n';
 
                   linhasTabela.forEach
                   (linha => 
