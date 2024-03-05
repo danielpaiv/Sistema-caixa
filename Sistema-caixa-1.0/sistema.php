@@ -503,7 +503,7 @@
                 {
                   const linhasTabela = document.querySelectorAll('.pedidos-vendidos tbody tr');
 
-                  let textoExportado = 'Item,Data,Cliente,Categoria,Observacao,Quantidade,Valor\n';
+                  let textoExportado = 'Item,Data,Forma de Pagamento,Cliente,Categoria,Observacao,Quantidade,Valor\n';
 
                   linhasTabela.forEach
                   (linha => 
