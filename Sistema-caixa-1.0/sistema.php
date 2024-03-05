@@ -179,14 +179,14 @@
 
                 <!-- Produto Camisa -->
 
-              <div class="produto" data-name="Camisa-m" data-price="25.00">
+              <div class="produto" data-name="Camisa-m" data-price="25">
                 <span>Camisa-m</span>
                 <span>R$ 25,00</span>
                 <input type="number" value="1" min="1">
                 <button class="adicionar-produto">Adicionar</button>
               </div>
 
-              <div class="produto" data-name="Camisa-g" data-price="25.00">
+              <div class="produto" data-name="Camisa-g" data-price="25">
                 <span>Camisa-g</span>
                 <span>R$ 25,00</span>
                 <input type="number" value="1" min="1">
@@ -196,14 +196,14 @@
                <!-- Produto Camisa -->
 
                <!-- Produto Calça -->
-              <div class="produto" data-name="Calça Jeans-40" data-price="45.00">
+              <div class="produto" data-name="Calça Jeans-40" data-price="45">
                 <span>Calça Jeans-40</span>
                 <span>R$ 45,00</span>
                 <input type="number" value="1" min="1">
                 <button class="adicionar-produto">Adicionar</button>
               </div>
 
-              <div class="produto" data-name="Calça Jeans-36" data-price="45.00">
+              <div class="produto" data-name="Calça Jeans-36" data-price="45">
                 <span>Calça Jeans-36</span>
                 <span>R$ 45,00</span>
                 <input type="number" value="1" min="1">
@@ -212,14 +212,14 @@
                <!-- Produto Calça -->
 
                 <!-- Produto Tênis -->
-              <div class="produto" data-name="Tênis-40" data-price="60.00">
+              <div class="produto" data-name="Tênis-40" data-price="60">
                 <span>Tênis-40</span>
                 <span>R$ 60,00</span>
                 <input type="number" value="1" min="1">
                 <button class="adicionar-produto">Adicionar</button>
               </div>
 
-              <div class="produto" data-name="Tênis-38" data-price="60.00">
+              <div class="produto" data-name="Tênis-38" data-price="60">
                 <span>Tênis-38</span>
                 <span>R$ 60,00</span>
                 <input type="number" value="1" min="1">
@@ -229,7 +229,7 @@
 
                 <!-- Produto Boné -->
 
-              <div class="produto" data-name="Boné" data-price="30.00">
+              <div class="produto" data-name="Boné" data-price="30">
                 <span>Boné</span>
                 <span>R$ 30,00</span>
                 <input type="number" value="1" min="1">
@@ -410,7 +410,7 @@
                           const novaQuantidade = quantidadeAtual + quantidade;
                           itemExistente.querySelector('.quantidade').textContent = novaQuantidade;
                           const subtotal = precoProduto * novaQuantidade;
-                          itemExistente.querySelector('.subtotal').textContent = `R$ ${subtotal.toFixed()}`;
+                          itemExistente.querySelector('.subtotal').textContent = `R$ ${subtotal.toFixed(0)}`;
                         } 
                       
                       else 
@@ -421,15 +421,15 @@
                           newRow.dataset.name = nomeProduto;
                           newRow.innerHTML = `
                             <td>${nomeProduto}</td>
-                            <td>R$ ${precoProduto.toFixed()}</td>
-                            <td class="quantidade">${quantidade}</td><td class="subtotal">R$ ${subtotal.toFixed()}</td>
+                            <td>R$ ${precoProduto.toFixed(0)}</td>
+                            <td class="quantidade">${quantidade}</td><td class="subtotal">R$ ${subtotal.toFixed(0)}</td>
                           <td><button class="remover-item">Remover</button></td>
-                        `;
+                          `;
                           itensCarrinho.appendChild(newRow);
                         }
 
                       totalCompra += precoProduto * quantidade;
-                      totalCarrinho.textContent = `R$ ${totalCompra.toFixed()}`;
+                      totalCarrinho.textContent = `R$ ${totalCompra.toFixed(0)}`;
                     }
                   );
                 }
@@ -447,7 +447,7 @@
                       const precoItem = parseFloat(itemToRemove.querySelector('td:nth-child(2)').textContent.replace('R$ ', ''));
                       const quantidadeItem = parseInt(itemToRemove.querySelector('.quantidade').textContent);
                       totalCompra -= precoItem * quantidadeItem;
-                      totalCarrinho.textContent =`R$ ${totalCompra.toFixed()}`;
+                      totalCarrinho.textContent =`R$ ${totalCompra.toFixed(0)}`;
                       itemToRemove.remove();
                     }
                   }
@@ -503,7 +503,7 @@
                 {
                   const linhasTabela = document.querySelectorAll('.pedidos-vendidos tbody tr');
 
-                  let textoExportado = 'Item,Data,Forma de Pagamento,Quantidade,Valor\n';
+                  let textoExportado = 'Item,Data,Cliente,Categoria,Observacao,Quantidade,Valor\n';
 
                   linhasTabela.forEach
                   (linha => 
